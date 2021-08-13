@@ -5,6 +5,35 @@ body {
   color: #444444;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
+  #lateral{
+    position: absolute;
+    background: #fff;
+    width: 40%;
+    height: 100%;
+    top: 0px;
+    right: 0px;
+    box-shadow: 2px 10px 20px #777;
+    display: none;
+  }
+
+  .fechar{
+    float: right;
+    font-size: 16pt;
+  }
+
+  .fechar:hover{
+    cursor: pointer;
+  }
+
+  .ativo{
+    display: block!important;
+  }
+
+  .botao-topo{
+    margin:20px 0px;
+  }
+
+
 p {
   color: #777; }
 

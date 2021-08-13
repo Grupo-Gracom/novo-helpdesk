@@ -8,21 +8,20 @@
 	<link href="{{asset('assets/css/font-awesome.min.css')}}" rel="stylesheet">
 	<link href="{{asset('assets/css/datepicker3.css')}}" rel="stylesheet">
 	<link href="{{asset('assets/css/styles.css')}}" rel="stylesheet">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
     <script src="{{asset('assets/js/chart-data.js')}}"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.1.25/jquery.fancybox.min.js"></script>
     <script src="{{asset('vendors/Chart.js/dist/Chart.min.js')}}"></script>
+	<script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+	
 </head>
 <body>
     @yield('conteudo')
-	<script src="{{asset('assets/js/jquery-1.11.1.min.js')}}"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-
-	<script src="{{asset('assets/js/bootstrap-datepicker.js')}}"></script>
+	<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('assets/js/bootstrap-datepicker.js')}}"></script>
 	<script src="{{asset('assets/js/custom.js')}}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
 	<script>

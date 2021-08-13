@@ -31,8 +31,8 @@
 							<thead>
 								<tr>
 									<th>Matricula</th>
+									<th>Nome</th>
 									<th>Email</th>
-									<th>Senha</th>
 									<th>Ação</th>
 								</tr>
 							</thead>
@@ -44,23 +44,65 @@
 
 					</div>
 				</div>
+                
+                
+                <!-- Painel Lateral -->
+                
+                <div id="lateral">
+					<div class="panel panel-default">
+						<div class="panel-heading clearfix">
+                        <h4><i class="fa fa-user"></i> Editar Aluno <i class="fa fa-close fechar"></i></h4>
+                         </div>
+						<div class="panel-body">
+                        <form class="form-horizontal row-border" action="http://localhost:8000/chamados" method="POST">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+								<div class="form-group">
+									
+									<div class="col-md-12">
+                                        <label class="control-label">Matricula:</label>
+										<input type="text" name="matricula" class="form-control">
+									</div>
+                                    <div class="col-md-12">
+                                        <label class="control-label">Nome:</label>
+										<input type="text" name="name" class="form-control">
+									</div>
+                                    <div class="col-md-12">
+                                        <label class="control-label botao-topo">Email:</label>
+										<input type="email" name="email" class="form-control" value="">
+									</div>
+                                    <div class="col-md-12">
+                                        <label class="control-label botao-topo">Nova Senha:</label>
+										<input type="text" name="senha" class="form-control" value="">
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<div class="col-md-6">
+										<button type="submit" class="btn btn-success btn-lg"> <i class="fa fa-check"></i> Salvar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
 			</div><!--/.row-->
 
     </div><!--/.main-->
-   <script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-	<script>
+
+<script>
 		var table;
     function carregar(){
         table = $('#alunos-studio').DataTable({
             ajax: {
-                url: 'https://studiogames.art.br/api-users',
+                url: 'https://studiogames.art.br/api-users/',
                 dataSrc: ''
             },
             columns: [
-                {data: 'id', width: "60px", className: 'dt-body-center dt-head-center'},
-                {data: 'name', width: "100px", className: 'dt-body-center dt-head-center'},
                 {data: 'matricula', width: "100px", className: 'dt-body-center dt-head-center'},
-				{data: 'email', width: "100px", className: 'dt-body-center dt-head-center'}
+				{data: 'name', width: "500px", className: 'dt-body-center dt-head-center'},
+                {data: 'email', width: "100px", className: 'dt-body-center dt-head-center'},
+				{data: ''}
             ],
             columnDefs: [
                 {
@@ -68,7 +110,7 @@
                     className: 'dt-body-center dt-head-center',
                     targets: -1,
                     data: null,
-                    defaultContent: '<i class="material-icons click suave editar">create</i><i class="material-icons click suave deletar">delete</i>'
+                    defaultContent: '<button class="btn btn-primary editar"><i class="fa fa-pencil"></i> Editar </btn>'
                 }
             ],
             language: {
@@ -91,6 +133,41 @@
             }
         });
 	} carregar();
+
+    $(document).on("click", ".editar", function(){
+            var data = table.row($(this).parents("tr")).data();
+            $("#lateral").addClass("ativo");
+            //consultar(data.curso_id);
+    });
+
+	function consultar(curso_id){
+        request = $.ajax({
+            url: 'cursos/' + curso_id,
+            type: 'get',
+            error: function(){
+                alerta("Falha na consulta!");
+            }
+        });
+        request.done(function(response){
+            $('#formEditar input[name="e_curso_id"]').val(response.curso_id);
+            // $('#formEditar input[name="e_curso_nome"]').val(response.curso_nome);
+            // $('#formEditar input[name="e_curso_nivel"]').val(response.curso_nivel);
+            // $('#formEditar input[name="e_curso_duracao"]').val(response.curso_duracao);
+            // $('#formEditar textarea').val(response.curso_descricao);
+            // $('#formEditar #e_curso_destaque option[value="'+response.curso_destaque+'"]').prop("selected", true);
+            // $('#formEditar #e_curso_status option[value="'+response.curso_status+'"]').prop("selected", true);
+            // $('#formEditar #e_software_id option[value="'+response.software_id+'"]').prop("selected", true);
+            // $('#formEditar #e_unidade_id option[value="'+response.unidade_id+'"]').prop("selected", true);
+        });
+    }
+
+
+    $(".fechar").click(function(){
+        $("#lateral").removeClass("ativo");
+    });
+
+
+
 	</script>
 
 @endsection

@@ -60,7 +60,7 @@
 									
 									<div class="col-md-12">
                                         <label class="control-label">Matricula:</label>
-										<input type="text" name="matricula" class="form-control">
+										<input  readonly type="text" name="matricula" id="matricula" class="form-control">
 									</div>
                                     <div class="col-md-12">
                                         <label class="control-label">Nome:</label>
@@ -137,27 +137,21 @@
     $(document).on("click", ".editar", function(){
             var data = table.row($(this).parents("tr")).data();
             $("#lateral").addClass("ativo");
-            //consultar(data.curso_id);
+            consultar(data.matricula);
     });
 
-	function consultar(curso_id){
+	function consultar(matricula){
         request = $.ajax({
-            url: 'cursos/' + curso_id,
+            url: 'https://studiogames.art.br/api-users/' + matricula,
             type: 'get',
             error: function(){
                 alerta("Falha na consulta!");
             }
         });
         request.done(function(response){
-            $('#formEditar input[name="e_curso_id"]').val(response.curso_id);
-            // $('#formEditar input[name="e_curso_nome"]').val(response.curso_nome);
-            // $('#formEditar input[name="e_curso_nivel"]').val(response.curso_nivel);
-            // $('#formEditar input[name="e_curso_duracao"]').val(response.curso_duracao);
-            // $('#formEditar textarea').val(response.curso_descricao);
-            // $('#formEditar #e_curso_destaque option[value="'+response.curso_destaque+'"]').prop("selected", true);
-            // $('#formEditar #e_curso_status option[value="'+response.curso_status+'"]').prop("selected", true);
-            // $('#formEditar #e_software_id option[value="'+response.software_id+'"]').prop("selected", true);
-            // $('#formEditar #e_unidade_id option[value="'+response.unidade_id+'"]').prop("selected", true);
+            $('form input[name="matricula"]').val(response[0].matricula);
+            $('form input[name="name"]').val(response[0].name);
+            $('form input[name="email"]').val(response[0].email);
         });
     }
 

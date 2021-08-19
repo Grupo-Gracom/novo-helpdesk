@@ -19,6 +19,11 @@
 		<br>
 			<div style="height:55px;"></div>
 			<div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert">
+                        <strong> Editado com Sucesso! </strong>
+                    </div>
+                </div>
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading clearfix">
@@ -54,25 +59,24 @@
                         <h4><i class="fa fa-user"></i> Editar Aluno <i class="fa fa-close fechar"></i></h4>
                          </div>
 						<div class="panel-body">
-                        <form class="form-horizontal row-border" action="http://localhost:8000/chamados" method="POST">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-								<div class="form-group">
+                        <form class="form-horizontal row-border" id="edit" method="post">
+                        <div class="form-group">
 									
 									<div class="col-md-12">
                                         <label class="control-label">Matricula:</label>
-										<input  readonly type="text" name="matricula" id="matricula" class="form-control">
+										<input  readonly type="text" name="e_matricula" id="matricula" class="form-control">
 									</div>
                                     <div class="col-md-12">
                                         <label class="control-label">Nome:</label>
-										<input type="text" name="name" class="form-control">
+										<input type="text" name="e_name" class="form-control">
 									</div>
                                     <div class="col-md-12">
                                         <label class="control-label botao-topo">Email:</label>
-										<input type="email" name="email" class="form-control" value="">
+										<input type="email" name="e_email" class="form-control" value="">
 									</div>
                                     <div class="col-md-12">
                                         <label class="control-label botao-topo">Nova Senha:</label>
-										<input type="text" name="senha" class="form-control" value="">
+										<input type="password" name="e_password" class="form-control" value="">
 									</div>
 								</div>
 								
@@ -145,13 +149,13 @@
             url: 'https://studiogames.art.br/api-users/' + matricula,
             type: 'get',
             error: function(){
-                alerta("Falha na consulta!");
+                alert("Falha na consulta!");
             }
         });
         request.done(function(response){
-            $('form input[name="matricula"]').val(response[0].matricula);
-            $('form input[name="name"]').val(response[0].name);
-            $('form input[name="email"]').val(response[0].email);
+            $('form input[name="e_matricula"]').val(response[0].matricula);
+            $('form input[name="e_name"]').val(response[0].name);
+            $('form input[name="e_email"]').val(response[0].email);
         });
     }
 
@@ -159,7 +163,42 @@
     $(".fechar").click(function(){
         $("#lateral").removeClass("ativo");
     });
+    
+    function recarregar(){
+        table.ajax.reload(null, false);
+    }
 
+    $("#edit").submit(function(e){
+        e.preventDefault();
+        $("#edit button").prop('disabled', true);
+        editar();
+    });
+
+
+    function editar(){
+        var form = $('#edit')[0];
+        request = $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: 'https://studiogames.art.br/editar',
+            data: form,
+            type: 'post',
+            contentType: false,
+            processData: false,
+            error: function (data, textStatus, errorThrown) {
+        alert("erro");
+ 
+    }
+        });
+        request.done(function(response){
+            if(response == "1"){
+                return "erro";
+            }else{
+                return "erro";
+            }
+        });
+    }
 
 
 	</script>

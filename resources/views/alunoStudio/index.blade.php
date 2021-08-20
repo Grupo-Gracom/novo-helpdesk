@@ -20,8 +20,8 @@
 			<div style="height:55px;"></div>
 			<div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-success" role="alert">
-                        <strong> Editado com Sucesso! </strong>
+                    <div class="alert alerta alerta-desativo" id="alerta" role="alert">
+                    
                     </div>
                 </div>
 				<div class="col-md-12">
@@ -59,11 +59,12 @@
                         <h4><i class="fa fa-user"></i> Editar Aluno <i class="fa fa-close fechar"></i></h4>
                          </div>
 						<div class="panel-body">
-                        <form class="form-horizontal row-border" id="edit" method="post">
+                        <form class="form-horizontal row-border" name="edit-form" id="formEditar">
                         <div class="form-group">
 									
 									<div class="col-md-12">
                                         <label class="control-label">Matricula:</label>
+                                        <input type="hidden" name="user_id" class="form-control">
 										<input  readonly type="text" name="e_matricula" id="matricula" class="form-control">
 									</div>
                                     <div class="col-md-12">
@@ -72,11 +73,11 @@
 									</div>
                                     <div class="col-md-12">
                                         <label class="control-label botao-topo">Email:</label>
-										<input type="email" name="e_email" class="form-control" value="">
+										<input type="email" name="e_email" class="form-control">
 									</div>
                                     <div class="col-md-12">
                                         <label class="control-label botao-topo">Nova Senha:</label>
-										<input type="password" name="e_password" class="form-control" value="">
+										<input type="password" name="e_password" class="form-control">
 									</div>
 								</div>
 								
@@ -140,6 +141,7 @@
 
     $(document).on("click", ".editar", function(){
             var data = table.row($(this).parents("tr")).data();
+            $("#formEditar button").prop('disabled', false);
             $("#lateral").addClass("ativo");
             consultar(data.matricula);
     });
@@ -153,6 +155,7 @@
             }
         });
         request.done(function(response){
+            $('form input[name="user_id"]').val(response[0].id);
             $('form input[name="e_matricula"]').val(response[0].matricula);
             $('form input[name="e_name"]').val(response[0].name);
             $('form input[name="e_email"]').val(response[0].email);
@@ -168,15 +171,15 @@
         table.ajax.reload(null, false);
     }
 
-    $("#edit").submit(function(e){
+    $("#formEditar").submit(function(e){
         e.preventDefault();
-        $("#edit button").prop('disabled', true);
+        $("#formEditar button").prop('disabled', true);
         editar();
     });
 
 
     function editar(){
-        var form = $('#edit')[0];
+        var form = new FormData($("form[name='edit-form']")[0]);
         request = $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -187,15 +190,29 @@
             contentType: false,
             processData: false,
             error: function (data, textStatus, errorThrown) {
-        alert("erro");
+                $("#lateral").removeClass("ativo");
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html("<i class='fa fa-exclamation-triangle'></i> <strong> Opss ocorreu um erro ! </strong>");
+                $("#alerta").removeClass("alerta-desativo");
+                setTimeout(function() { $("#alerta").hide(); }, 3000);
  
     }
         });
         request.done(function(response){
-            if(response == "1"){
-                return "erro";
+            if(response == 2){
+                $("#lateral").removeClass("ativo");
+                $("#alerta").addClass("alert-success");
+                $("#alerta").html("<i class='fa fa-thumbs-up'></i> <strong> Editado com Sucesso! </strong>");
+                $("#alerta").removeClass("alerta-desativo");
+                recarregar();
+                setTimeout(function() { $("#alerta").hide(); }, 3000); 
+               
             }else{
-                return "erro";
+                $("#lateral").removeClass("ativo");
+                $("#alerta").addClass("alert-danger");
+                $("#alerta").html("<i class='fa fa-exclamation-triangle'></i> <strong> Opss ocorreu um erro ! </strong>");
+                $("#alerta").removeClass("alerta-desativo");
+                setTimeout(function() { $("#alerta").hide(); }, 3000);
             }
         });
     }

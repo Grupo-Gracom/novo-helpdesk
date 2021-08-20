@@ -16,6 +16,18 @@ body {
     display: none;
   }
 
+  .alerta{
+    position: fixed;
+    box-shadow: 6px 2px 12px #dddbdb;
+    top: 110px;
+    right: 10px;
+    z-index: 1000;
+  }
+
+  .alerta-desativo{
+     display: none;
+  }
+
   .fechar{
     float: right;
     font-size: 16pt;
